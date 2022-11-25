@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Suspense } from 'react'
 import { BlitzPage } from '@blitzjs/next'
 import { ColorPicker, Text, Stack } from '@mantine/core'
 import { NumberInput } from '@mantine/core'
@@ -7,7 +7,14 @@ import logout from 'src/auth/mutations/logout'
 import { useMutation } from '@blitzjs/rpc'
 import { useRouter } from 'next/router'
 import { Routes } from '@blitzjs/next'
+import { useCurrentUser } from 'src/users/hooks/useCurrentUser'
 import { useSession } from '@blitzjs/auth'
+
+const UserInfo = () => {
+  const user = useCurrentUser()
+
+  return <p>{user?.email}</p>
+}
 
 const Home: BlitzPage = () => {
   const { isLoading } = useSession({ suspense: false })
@@ -21,7 +28,7 @@ const Home: BlitzPage = () => {
   })
 
   if (isLoading) {
-    return <p>loading...</p>
+    return <p>Loading..</p>
   }
 
   return (
@@ -32,6 +39,9 @@ const Home: BlitzPage = () => {
           paddingBottom: '200px',
         }}
       >
+        <Suspense fallback={<div>Loading...</div>}>
+          <UserInfo />
+        </Suspense>
         <Button>Hello World</Button>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, cumque.</p>
       </div>
