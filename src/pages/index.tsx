@@ -7,8 +7,10 @@ import logout from 'src/auth/mutations/logout'
 import { useMutation } from '@blitzjs/rpc'
 import { useRouter } from 'next/router'
 import { Routes } from '@blitzjs/next'
+import { useSession } from '@blitzjs/auth'
 
 const Home: BlitzPage = () => {
+  const { isLoading } = useSession({ suspense: false })
   const router = useRouter()
   const [value, onChange] = useState('rgba(47, 119, 150, 0.7)')
 
@@ -17,6 +19,10 @@ const Home: BlitzPage = () => {
       await router.push(Routes.LoginPage())
     },
   })
+
+  if (isLoading) {
+    return <p>loading...</p>
+  }
 
   return (
     <div>
@@ -43,7 +49,7 @@ const Home: BlitzPage = () => {
 }
 
 Home.authenticate = {
-  redirectTo: '/auth/login',
+  redirectTo: Routes.LoginPage(),
 }
 
 export default Home
