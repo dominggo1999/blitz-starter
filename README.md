@@ -1,1 +1,1 @@
-Blitz JS starter template, configure with [ladle](https://ladle.dev/) and [mantine](https://mantine.dev/)
+Blitz JS starter template, configured with [ladle](https://ladle.dev/) and [mantine](https://mantine.dev/)
